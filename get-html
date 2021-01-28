@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+timestamp="$(date -I)"
+
+curl "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | /usr/local/bin/jq -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' >> _site/"${timestamp}".html
