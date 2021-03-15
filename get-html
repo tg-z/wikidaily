@@ -37,22 +37,6 @@ index() {
 
 INDEX="wikidaily.html"
 
-# HEAD="${HEAD}\
-# <!DOCTYPE HTML>\
-# <html lang='en'>\
-# <head>\
-# <meta charset='utf-8'>\
-# <title>wikidaily</title>\
-# </head>"
-
-HTML="${HTML}\
-<h1>wikidaily</h1>\
-<body>"
-
-BODY="${BODY}\
-</body>\
-</html>"
-
 for FILE in "${dest}"/*; do
 DETAILS="${DETAILS}\
 <details>\
@@ -63,13 +47,7 @@ $(cat "${FILE}")\
 </details>"
 done
 
-# echo "${HEAD}" > "${INDEX}.html"
-{
-	# echo "${HEAD}"
-	echo "${HTML}"
-	echo "${DETAILS}"
-	echo "${BODY}"
-} >> "${INDEX}.html"
+echo "${DETAILS}" > "${INDEX}"
 }
 
 download() {
@@ -82,7 +60,7 @@ case "$*" in
         help
         ;;
     --index|-i)
-	index "$@"
+	exec ./index
 	;;
     --list|-l)
         list
