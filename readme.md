@@ -8,4 +8,8 @@ this repo makes use of a one-liner created by [everest pipkin](https://everest-p
 
 __TODO__:
 - [ ] make a script to generate index.html file
-- [ ] add more options to `get-html` script
+- [x] add more options to `get-html` script
+  - [x] list option
+  - [x] help option
+  - [x] update option
+  - [ ] index option
