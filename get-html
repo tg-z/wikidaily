@@ -23,6 +23,7 @@ usage: ${_ME} <options>
 
 options:
      -h, --help      print usage
+     -i, --index     regenerate index.html file
      -l, --list      list daily wikifiles
      -u, --update    update daily wikifile
 __EOF__
@@ -30,6 +31,45 @@ __EOF__
 
 list() {
     "${_tree}" -C "${dest}"
+}
+
+index() {
+
+INDEX="wikidaily.html"
+
+# HEAD="${HEAD}\
+# <!DOCTYPE HTML>\
+# <html lang='en'>\
+# <head>\
+# <meta charset='utf-8'>\
+# <title>wikidaily</title>\
+# </head>"
+
+HTML="${HTML}\
+<h1>wikidaily</h1>\
+<body>"
+
+BODY="${BODY}\
+</body>\
+</html>"
+
+for FILE in "${dest}"/*; do
+DETAILS="${DETAILS}\
+<details>\
+<summary>$(basename "${FILE}" | sed 's/.html//')</summary>\
+<div>\
+$(cat "${FILE}")\
+</div>\
+</details>"
+done
+
+# echo "${HEAD}" > "${INDEX}.html"
+{
+	# echo "${HEAD}"
+	echo "${HTML}"
+	echo "${DETAILS}"
+	echo "${BODY}"
+} >> "${INDEX}.html"
 }
 
 download() {
@@ -41,6 +81,9 @@ case "$*" in
     --help|-h)
         help
         ;;
+    --index|-i)
+	index "$@"
+	;;
     --list|-l)
         list
         ;;
