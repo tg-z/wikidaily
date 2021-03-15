@@ -4,4 +4,8 @@ _jq="$(command -v jq)"
 timestamp="$(date -I)"
 dest="${1:-_site}"
 
+if [ ! -d "${dest}" ]; then
+	mkdir -p "${dest}"
+fi
+
 curl "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
