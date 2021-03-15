@@ -1,11 +1,54 @@
 #!/bin/bash
 
+set -e
+set -o nounset
+set -o errexit
+set -o pipefail
+IFS=$'\n\t'
+
+_ME="${0##*/}"
 _jq="$(command -v jq)"
+_curl="$(command -v curl)"
+_tree="$(command -v tree)"
 timestamp="$(date -I)"
-dest="${1:-_site}"
+dest="${2:-_site}"
 
 if [ ! -d "${dest}" ]; then
 	mkdir -p "${dest}"
 fi
 
-curl "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
+help(){
+    cat<<__EOF__
+usage: ${_ME} <options>
+
+options:
+     -h, --help      print usage
+     -l, --list      list daily wikifiles
+     -u, --update    update daily wikifile
+__EOF__
+}
+
+list() {
+    "${_tree}" -C "${dest}"
+}
+
+download() {
+
+"${_curl}" "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
+}
+
+case "$*" in
+    --help|-h)
+        help
+        ;;
+    --list|-l)
+        list
+        ;;
+    --update|-u)
+        shift
+        download
+        ;;
+    *) help
+        ;;
+
+esac
