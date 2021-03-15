@@ -12,4 +12,5 @@ __TODO__:
   - [x] list option
   - [x] help option
   - [x] update option
-  - [ ] index option
+  - [x] index option
+  - [ ] index styling
