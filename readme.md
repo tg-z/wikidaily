@@ -14,5 +14,5 @@ __TODO__:
   - [x] help arg
   - [x] update arg
   - [x] index arg
-  - [ ] push arg
+  - [x] push arg
 - [ ] index styling options

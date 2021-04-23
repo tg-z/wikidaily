@@ -42,6 +42,7 @@ list() {
 
 index() {
 
+git add "${dest}"
 INDEX="${indexfile}"
 
 for FILE in "${dest}"/*; do
@@ -66,6 +67,7 @@ _info "successfully updated ✓"
 }
 
 push() {
+  index
   gr="$(git rev-parse --show-toplevel)"
   cd "${gr}" || exit
   if git status | grep -c 'Your branch is ahead' > /dev/null; then
@@ -74,7 +76,7 @@ push() {
 	  read -r -p "commit message: " desc
 	  git commit -am "${desc}"
 	  git push
-	  _info "changes synced ✓"
+	  _info "changes pushed ✓"
   fi
 }
 
