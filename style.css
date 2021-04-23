@@ -2,7 +2,7 @@
   font: 16px/20px Iosevka, "Andale Mono", monospace;
   /* font-family: Libre Franklin,sans-serif; */
   font-size: 16px;
-  max-width: 100%;
+  max-width: 100rem;
 }
 
 body {
@@ -16,19 +16,26 @@ details {
   margin: 10px 10px 10px 10px;
   max-width: 100rem;
   align: center;
-  border: 1px solid khaki;
+  border: 0px solid khaki;
   padding: 20px;
 }
+
+/* details:hover { */
+/*   color: #333333; */
+/*   background-color: khaki; */
+/* } */
 
 summary {
   font-size: 700%;
   text-align: center;
   color: khaki;
-  padding: 10px;
+  padding: 20px;
+  margin: 10px 10px 10px 10px;
 }
 
 summary:hover {
-  color: hotpink;
+  color: #333333;
+  background-color: khaki;
   border-radius: 0px;
 }
 
@@ -37,8 +44,15 @@ a {
 }
 
 p {
+  margin: 10px 10px 10px 10px;
   border: 0px solid khaki;
   outline: khaki dashed 0px;
-  margin: auto;
+  /* margin: auto; */
   padding: 20px;
+}
+
+img {
+  max-width: 100rem;
+  margin: auto;
+  padding: 10px;
 }
