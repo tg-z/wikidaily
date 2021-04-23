@@ -42,7 +42,6 @@ list() {
 
 index() {
 
-git add "${dest}"
 INDEX="${indexfile}"
 
 for FILE in "${dest}"/*; do
@@ -55,7 +54,21 @@ $(cat "${FILE}")\
 </details>"
 done
 
-echo "${DETAILS}" > "${INDEX}"
+HEADERS="${HEADERS}\
+<!doctype html>\
+<html lang=\"en\">\
+<head><meta charset=\"utf-8\">\
+<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
+<link rel=\"stylesheet\" href=\"style.css\">
+<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">\
+</head>\
+<body>\
+"
+echo "${HEADERS}" > "${INDEX}"
+echo "${DETAILS}" >> "${INDEX}"
+echo "</body></html>" >> "${INDEX}"
+
+git add "${dest}"
 _info "index file updated ✓"
 }
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dest="_site"
+INDEX="wikidaily.html"
+
+for FILE in "${dest}"/*; do
+DETAILS="${DETAILS}\
+<details>\
+<summary>$(basename "${FILE}" | sed 's/.html//')</summary>\
+<div>\
+$(cat "${FILE}")\
+</div>\
+</details>"
+done
+
+echo "${DETAILS}" > "${INDEX}"
