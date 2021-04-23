@@ -11,11 +11,17 @@ _jq="$(command -v jq)"
 _curl="$(command -v curl)"
 _tree="$(command -v tree)"
 timestamp="$(date -I)"
+indexfile="wikidaily.html"
 dest="${2:-_site}"
 
 if [ ! -d "${dest}" ]; then
 	mkdir -p "${dest}"
 fi
+
+_info() {
+    # $1: info message
+    printf "%b\n" "\033[32mINFO\033[0m ${1}" >&2
+}
 
 help(){
     cat<<__EOF__
@@ -25,6 +31,7 @@ options:
      -h, --help      print usage
      -i, --index     regenerate index.html file
      -l, --list      list daily wikifiles
+     -p, --push      push changes to git remote if exists
      -u, --update    update daily wikifile
 __EOF__
 }
@@ -35,7 +42,7 @@ list() {
 
 index() {
 
-INDEX="wikidaily.html"
+INDEX="${indexfile}"
 
 for FILE in "${dest}"/*; do
 DETAILS="${DETAILS}\
@@ -48,11 +55,27 @@ $(cat "${FILE}")\
 done
 
 echo "${DETAILS}" > "${INDEX}"
+_info "index file updated ✓"
 }
 
 download() {
 
 "${_curl}" "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
+
+_info "successfully updated ✓"
+}
+
+push() {
+  gr="$(git rev-parse --show-toplevel)"
+  cd "${gr}" || exit
+  if git status | grep -c 'Your branch is ahead' > /dev/null; then
+	  git push
+  else
+	  read -r -p "commit message: " desc
+	  git commit -am "${desc}"
+	  git push
+	  _info "changes synced ✓"
+  fi
 }
 
 case "$*" in
@@ -65,6 +88,10 @@ case "$*" in
     --list|-l)
         list
         ;;
+    --push|-p)
+        shift
+        push
+	;;
     --update|-u)
         shift
         download
