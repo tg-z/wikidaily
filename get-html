@@ -11,7 +11,7 @@ _jq="$(command -v jq)"
 _curl="$(command -v curl)"
 _tree="$(command -v tree)"
 timestamp="$(date -I)"
-indexfile="wikidaily.html"
+export indexfile="wikidaily.html"
 dest="${2:-_site}"
 
 if [ ! -d "${dest}" ]; then
@@ -42,33 +42,8 @@ list() {
 
 index() {
 
-INDEX="${indexfile}"
+./index
 
-for FILE in "${dest}"/*; do
-DETAILS="${DETAILS}\
-<details>\
-<summary>$(basename "${FILE}" | sed 's/.html//')</summary>\
-<div>\
-$(cat "${FILE}")\
-</div>\
-</details>"
-done
-
-HEADERS="${HEADERS}\
-<!doctype html>\
-<html lang=\"en\">\
-<head><meta charset=\"utf-8\">\
-<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\
-<link rel=\"stylesheet\" href=\"style.css\">
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no\">\
-</head>\
-<body>\
-"
-echo "${HEADERS}" > "${INDEX}"
-echo "${DETAILS}" >> "${INDEX}"
-echo "</body></html>" >> "${INDEX}"
-
-git add "${dest}"
 _info "index file updated ✓"
 }
 
@@ -76,7 +51,12 @@ download() {
 
 "${_curl}" "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
 
-_info "successfully updated ✓"
+}
+
+update() {
+  download
+  git add "${dest}"
+  _info "successfully updated ✓"
 }
 
 push() {
@@ -98,7 +78,7 @@ case "$*" in
         help
         ;;
     --index|-i)
-	exec ./index
+	index
 	;;
     --list|-l)
         list
@@ -109,7 +89,7 @@ case "$*" in
 	;;
     --update|-u)
         shift
-        download
+        update
         ;;
     *) help
         ;;
