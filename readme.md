@@ -7,10 +7,12 @@ this repo makes use of a one-liner created by [everest pipkin](https://everest-p
 > — everest ([@everestpipkin](https://twitter.com/everestpipkin)) [Jan 13, 2021](https://twitter.com/everestpipkin/status/1349274983651012609)
 
 __TODO__:
-- [ ] make a script to generate index.html file
+- [ ] rename `get-html`
+- [x] make a script to generate index file
 - [x] add more options to `get-html` script
-  - [x] list option
-  - [x] help option
-  - [x] update option
-  - [x] index option
-  - [ ] index styling
+  - [x] list arg
+  - [x] help arg
+  - [x] update arg
+  - [x] index arg
+  - [ ] push arg
+- [ ] index styling options
