@@ -1,9 +1,9 @@
 #!/bin/bash
 
-dest="_site"
+dest="docs"
 INDEX="${indexfile}"
 
-for FILE in "${dest}"/*; do
+for FILE in "${dest}"/posts/*; do
 DETAILS="${DETAILS}\
 <details>\
 <summary>$(basename "${FILE}" | sed 's/.html//')</summary>\
@@ -13,5 +13,5 @@ $(cat "${FILE}")\
 </details>"
 done
 
-echo "<head><link rel=\"stylesheet\" href=\"style.css\"><link href=\"https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500&amp;display=swap\" rel=\"stylesheet\"></head>" > "${INDEX}"
+echo "<head><link rel=\"stylesheet\" href=\"../style.css\"><link href=\"https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500&amp;display=swap\" rel=\"stylesheet\"></head>" > "${INDEX}"
 echo "${DETAILS}" >> "${INDEX}"

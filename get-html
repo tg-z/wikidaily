@@ -11,11 +11,11 @@ _jq="$(command -v jq)"
 _curl="$(command -v curl)"
 _tree="$(command -v tree)"
 timestamp="$(date -I)"
-export indexfile="wikidaily.html"
-dest="${2:-_site}"
+dest="${2:-docs}"
+export indexfile="${dest}/index.html"
 
-if [ ! -d "${dest}" ]; then
-	mkdir -p "${dest}"
+if [ ! -d "${dest}/posts" ]; then
+	mkdir -p "${dest}/posts"
 fi
 
 _info() {
@@ -37,7 +37,7 @@ __EOF__
 }
 
 list() {
-    "${_tree}" -C "${dest}"
+    "${_tree}" -C "${dest}/posts"
 }
 
 index() {
@@ -49,7 +49,7 @@ _info "index file updated ✓"
 
 download() {
 
-"${_curl}" "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/"${timestamp}".html
+"${_curl}" "https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=pageimages|extracts&exintro&grnlimit=6" | "${_jq}" -r '.query.pages | [ map(.) | .[] | {title: .title, pageid: .pageid, extract: .extract, thumbnail: .thumbnail.source} ] | .[] | "<img src=" + .thumbnail + "><br><a href=https://en.wikipedia.org/?curid="+(.pageid|tostring)+">"+ .title+"</a><br>"+ .extract+"<br><br>"' > "${dest}"/posts/"${timestamp}".html
 
 }
 
