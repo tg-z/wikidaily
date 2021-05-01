@@ -13,5 +13,5 @@ $(cat "${FILE}")\
 </details>"
 done
 
-echo "<head><link rel=\"stylesheet\" href=\"../style.css\"><link href=\"https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500&amp;display=swap\" rel=\"stylesheet\"></head>" > "${INDEX}"
+echo "<head><link rel=\"stylesheet\" href=\"style.css\"><link href=\"https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;500&amp;display=swap\" rel=\"stylesheet\"></head>" > "${INDEX}"
 echo "${DETAILS}" >> "${INDEX}"
