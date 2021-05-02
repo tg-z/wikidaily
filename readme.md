@@ -9,7 +9,7 @@ this repo makes use of a one-liner created by [everest pipkin](https://everest-p
 
 requirements: tree, jq, grep, git, curl
 
-create your own repo by cloning:
+1) create your own repo by cloning:
 ```sh
 # clone repo
 $ git clone https://github.com/tg-z/wikidaily
@@ -21,7 +21,7 @@ $ rm -rf docs/posts
 $ ./wikidaily
 ```
 
-download only necessary files:
+2) download only necessary files:
 ```sh
 # create a directory for your new repo
 $ mkdir -p wikidaily
