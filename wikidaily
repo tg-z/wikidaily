@@ -7,6 +7,7 @@ set -o pipefail
 IFS=$'\n\t'
 
 _ME="${0##*/}"
+_VERSION="1.0.0"
 _jq="$(command -v jq)"
 _curl="$(command -v curl)"
 _tree="$(command -v tree)"
@@ -29,11 +30,17 @@ usage: ${_ME} <options>
 
 options:
      -h, --help      print usage
+     -f, --full      new wikifile + updates index + push
      -i, --index     regenerate index.html file
      -l, --list      list daily wikifiles
      -p, --push      push changes to git remote if exists
      -u, --update    update daily wikifile
+     -v, --version   show script version
 __EOF__
+}
+
+version() {
+  printf "%s %s\n" "${_ME}" "${_VERSION}"
 }
 
 list() {
@@ -66,17 +73,27 @@ push() {
   if git status | grep -c 'Your branch is ahead' > /dev/null; then
 	  git push
   else
-	  read -r -p "commit message: " desc
-	  git commit -am "${desc}"
+	  # read -r -p "commit message: " desc
+	  # git commit -am "${desc}"
+	  git commit -am "changes pushed on $(date -I)"
 	  git push
 	  _info "changes pushed ✓"
   fi
+}
+
+full() {
+  update
+  index
+  push
 }
 
 case "$*" in
     --help|-h)
         help
         ;;
+    --full|-f)
+	full
+	;;
     --index|-i)
 	index
 	;;
@@ -91,6 +108,10 @@ case "$*" in
         shift
         update
         ;;
+    --version|-v)
+	shift
+	version
+	;;
     *) help
         ;;
 
