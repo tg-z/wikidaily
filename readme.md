@@ -21,19 +21,20 @@ $ rm -rf docs/posts
 $ ./wikidaily
 ```
 
-2) download only necessary files:
+2) download install.sh file:
 ```sh
-# create a directory for your new repo
-$ mkdir -p wikidaily
-# start tracking w git
-$ cd wikidaily
-$ git init
-# get required scripts
-$ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/wikidaily"
-$ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/index"
-$ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/docs/style.css" > docs/style.css
-$ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/readme.md"
+# enter directory to create wikidaily in
+$ cd repos
+$ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/install.sh" -o wikidaily/install.sh
+$ chmod +x wikidaily/install.sh
+$ ./wikidaily/install.sh
+```
 
+3) execute install.sh script
+```sh
+# warning: always check install script before executing it directly in your shell. confirm it does what you want it to and isn't malicious.
+# go to repo you want wikidaily in
+$ curl -s "https://raw.githubusercontent.com/tg-z/wikidaily/main/install.sh" | bash
 ```
 
 __TODO__:
