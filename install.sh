@@ -14,7 +14,7 @@ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/docs/style.css" -o d
 curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/readme.md" -o readme.md
 
 # make executable
-chmod +x wikidaily index install.sh
+chmod +x wikidaily index
 
 # start tracking w git
 git init
@@ -24,4 +24,8 @@ git add .
 echo "installing dependencies with brew"
 brew install jq tree grep curl git
 
+# create first files
+echo "creating files"
+./wikidaily --update
+./wikidaily --index
 echo "install complete"
