@@ -55,3 +55,4 @@ __TODO__:
 - [ ] make script usable anywhere (env vars for where `wikidaily` repo is located)
 - [ ] fix `wikidaily` so it doesn't depend on `index` script
 - [x] rename `get-html` to `wikidaily` #done:2021-05-01
+- [x] create `install.sh` script #done:2021-05-07
