@@ -7,10 +7,6 @@ mkdir -p wikidaily/docs/posts
 
 cd wikidaily || exit
 
-# start tracking w git
-git init
-git add .
-
 # get required scripts
 curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/wikidaily" -o wikidaily
 curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/index" -o index
@@ -19,6 +15,10 @@ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/readme.md" -o readme
 
 # make executable
 chmod +x wikidaily index install.sh
+
+# start tracking w git
+git init
+git add .
 
 # install dependencies
 echo "installing dependencies with brew"
