@@ -16,10 +16,6 @@ curl "https://raw.githubusercontent.com/tg-z/wikidaily/main/readme.md" -o readme
 # make executable
 chmod +x wikidaily index
 
-# start tracking w git
-git init
-git add .
-
 # install dependencies
 echo "installing dependencies with brew"
 brew install jq tree grep curl git
@@ -28,4 +24,9 @@ brew install jq tree grep curl git
 echo "creating files"
 ./wikidaily --update
 ./wikidaily --index
+
+# start tracking w git
+git init
+git add .
+
 echo "install complete"
